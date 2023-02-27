@@ -2,8 +2,13 @@
 
 public class ServiceProvider : IServiceProvider
 {
-    public IScope CreateScope()
+    private Dictionary<Type, ServiceDescriptor> _descriptors = new();
+
+    public ServiceProvider(IEnumerable<ServiceDescriptor> services)
     {
-        throw new NotImplementedException();
+        _descriptors = services.ToDictionary(d => d.ServiceType);
     }
+
+    public IScope CreateScope()
+        => new Scope(_descriptors);
 }

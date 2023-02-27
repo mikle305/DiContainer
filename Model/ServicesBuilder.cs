@@ -1,17 +1,17 @@
-﻿using System;
-
-namespace DependencyInjection.Model;
+﻿namespace DependencyInjection.Model;
 
 public class ServicesBuilder : IServicesBuilder
 {
-    private ServiceProvider _services = new();
+    private List<ServiceDescriptor> _services = new();
 
-
+    
     public void Register(ServiceDescriptor serviceDescriptor)
     {
         throw new NotImplementedException();
     }
 
-    public IServiceProvider Build() 
-        => _services;
+    public IServiceProvider Build()
+    {
+        throw new NotImplementedException();
+    }
 }
