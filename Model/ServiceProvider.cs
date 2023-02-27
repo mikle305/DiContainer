@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DependencyInjection.Model;
+﻿namespace DependencyInjection.Model;
 
 public class ServiceProvider : IServiceProvider
 {

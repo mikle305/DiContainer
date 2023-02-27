@@ -1,1 +1,3 @@
 *.DotSettings
+obj/
+bin/
