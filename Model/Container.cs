@@ -1,14 +1,16 @@
-﻿namespace DependencyInjection.Model;
+﻿using System.Collections.Immutable;
+
+namespace DependencyInjection.Model;
 
 public class Container : IContainer
 {
-    private readonly Dictionary<Type, ServiceDescriptor> _descriptors;
+    private readonly IDictionary<Type, ServiceDescriptor> _descriptors;
 
     public Container(IEnumerable<ServiceDescriptor> services)
     {
-        _descriptors = services.ToDictionary(d => d.ServiceType);
+        _descriptors = services.ToImmutableDictionary(d => d.ServiceType);
     }
 
-    public IScope CreateScope()
+    public IScope CreateScope() 
         => new Scope(_descriptors);
 }

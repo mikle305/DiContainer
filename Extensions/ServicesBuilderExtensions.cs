@@ -1,4 +1,4 @@
-﻿using DependencyInjection.Constants;
+﻿using DependencyInjection.Helpers;
 using DependencyInjection.Model;
 
 namespace DependencyInjection.Extensions;
@@ -28,21 +28,21 @@ public static class ServicesBuilderExtensions
         => builder.RegisterFactoryBased(
             serviceType: typeof(TService), 
             factory: s => 
-                factory(s) ?? throw new InvalidOperationException(ExceptionMessages.ServiceFactoryReturnsNull), 
+                factory(s) ?? ExceptionsHelper.ThrowServiceFactoryReturnsNull(),
             lifeTime: LifeTime.Single);
     
     public static IContainerBuilder RegisterScoped<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
         => builder.RegisterFactoryBased(
             serviceType: typeof(TService), 
             factory: s => 
-                factory(s) ?? throw new InvalidOperationException(ExceptionMessages.ServiceFactoryReturnsNull),
+                factory(s) ?? ExceptionsHelper.ThrowServiceFactoryReturnsNull(),
             lifeTime: LifeTime.Scoped);
 
     public static IContainerBuilder RegisterTransient<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
         => builder.RegisterFactoryBased(
             serviceType: typeof(TService), 
             factory: s => 
-                factory(s) ?? throw new InvalidOperationException(ExceptionMessages.ServiceFactoryReturnsNull),
+                factory(s) ?? ExceptionsHelper.ThrowServiceFactoryReturnsNull(),
             lifeTime: LifeTime.Transient);
 
     
