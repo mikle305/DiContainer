@@ -1,17 +1,17 @@
 ﻿namespace DependencyInjection.Model;
 
-public class ServicesBuilder : IServicesBuilder
+public class ContainerBuilder : IContainerBuilder
 {
     private List<ServiceDescriptor> _services = new();
 
     
     public void Register(ServiceDescriptor serviceDescriptor)
     {
-        throw new NotImplementedException();
+        _services.Add(serviceDescriptor);
     }
 
-    public IServiceProvider Build()
+    public IContainer Build()
     {
-        throw new NotImplementedException();
+        return new Container(_services);
     }
 }

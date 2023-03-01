@@ -1,8 +1,8 @@
 ﻿namespace DependencyInjection.Model;
 
-public interface IServicesBuilder
+public interface IContainerBuilder
 {
     public void Register(ServiceDescriptor serviceDescriptor);
     
-    public IServiceProvider Build();
+    public IContainer Build();
 }

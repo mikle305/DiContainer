@@ -1,51 +1,94 @@
-﻿using DependencyInjection.Model;
+﻿using DependencyInjection.Constants;
+using DependencyInjection.Model;
 
 namespace DependencyInjection.Extensions;
 
 public static class ServicesBuilderExtensions
 {
-    public static IServicesBuilder RegisterSingle<TService, TImplementation>(this IServicesBuilder builder) 
-        => builder.RegisterType(typeof(TService), typeof(TImplementation), LifeTime.Single);
+    public static IContainerBuilder RegisterSingle<TService, TImplementation>(this IContainerBuilder builder) where TService : class
+        => builder.RegisterTypeBased(
+            serviceType: typeof(TService),
+            serviceImplementation: typeof(TImplementation), 
+            lifeTime: LifeTime.Single);
     
-    public static IServicesBuilder RegisterScoped<TService, TImplementation>(this IServicesBuilder builder) 
-        => builder.RegisterType(typeof(TService), typeof(TImplementation), LifeTime.Scoped);
+    public static IContainerBuilder RegisterScoped<TService, TImplementation>(this IContainerBuilder builder) 
+        => builder.RegisterTypeBased(
+            serviceType: typeof(TService),
+            serviceImplementation: typeof(TImplementation), 
+            lifeTime: LifeTime.Scoped);
 
-    public static IServicesBuilder RegisterTransient<TService, TImplementation>(this IServicesBuilder builder) 
-        => builder.RegisterType(typeof(TService), typeof(TImplementation), LifeTime.Transient);
+    public static IContainerBuilder RegisterTransient<TService, TImplementation>(this IContainerBuilder builder) 
+        => builder.RegisterTypeBased(
+            serviceType: typeof(TService),
+            serviceImplementation: typeof(TImplementation), 
+            lifeTime: LifeTime.Transient);
     
     
-    public static IServicesBuilder RegisterSingle<TService>(this IServicesBuilder builder, Func<IScope, TService> factory)
-        => builder.RegisterFactory(typeof(TService), s => factory(s), LifeTime.Single);
+    public static IContainerBuilder RegisterSingle<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
+        => builder.RegisterFactoryBased(
+            serviceType: typeof(TService), 
+            factory: s => 
+                factory(s) ?? throw new InvalidOperationException(ExceptionMessages.ServiceFactoryReturnsNull), 
+            lifeTime: LifeTime.Single);
     
-    public static IServicesBuilder RegisterScoped<TService>(this IServicesBuilder builder, Func<IScope, TService> factory)
-        => builder.RegisterFactory(typeof(TService), s => factory(s), LifeTime.Scoped);
+    public static IContainerBuilder RegisterScoped<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
+        => builder.RegisterFactoryBased(
+            serviceType: typeof(TService), 
+            factory: s => 
+                factory(s) ?? throw new InvalidOperationException(ExceptionMessages.ServiceFactoryReturnsNull),
+            lifeTime: LifeTime.Scoped);
 
-    public static IServicesBuilder RegisterTransient<TService>(this IServicesBuilder builder, Func<IScope, TService> factory) 
-        => builder.RegisterFactory(typeof(TService), s => factory(s), LifeTime.Transient);
+    public static IContainerBuilder RegisterTransient<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
+        => builder.RegisterFactoryBased(
+            serviceType: typeof(TService), 
+            factory: s => 
+                factory(s) ?? throw new InvalidOperationException(ExceptionMessages.ServiceFactoryReturnsNull),
+            lifeTime: LifeTime.Transient);
 
     
-    public static IServicesBuilder RegisterSingle<TService>(this ServicesBuilder builder, TService instance) 
-        => builder.RegisterInstance(typeof(TService), instance);
+    public static IContainerBuilder RegisterSingle<TService>(this ContainerBuilder builder, TService instance) 
+        => builder.RegisterInstanceBased(
+            serviceType: typeof(TService), 
+            instance ?? throw new ArgumentNullException(nameof(instance)));
+    
+    
+    public static IContainerBuilder RegisterSingle<TService>(this IContainerBuilder builder) where TService : class
+        => builder.RegisterTypeBased(
+            serviceType: typeof(TService), 
+            serviceImplementation: typeof(TService), 
+            lifeTime: LifeTime.Single);
+    
+    public static IContainerBuilder RegisterScoped<TService>(this IContainerBuilder builder) where TService : class
+        => builder.RegisterTypeBased(
+            serviceType: typeof(TService), 
+            serviceImplementation: typeof(TService), 
+            lifeTime: LifeTime.Scoped);
+
+    public static IContainerBuilder RegisterTransient<TService>(this IContainerBuilder builder) where TService : class
+        => builder.RegisterTypeBased(
+            serviceType: typeof(TService), 
+            serviceImplementation: typeof(TService), 
+            lifeTime: LifeTime.Transient);
 
     
-    private static IServicesBuilder RegisterType(
-        this IServicesBuilder servicesBuilder, 
+    private static IContainerBuilder RegisterTypeBased(
+        this IContainerBuilder containerBuilder, 
         Type serviceType,
         Type serviceImplementation,
         LifeTime lifeTime)
     {
-        servicesBuilder.Register(new TypeBasedServiceDescriptor
+        containerBuilder.Register(new TypeBasedServiceDescriptor
         {
             ServiceType = serviceType,
             ImplementationType = serviceImplementation,
             LifeTime = lifeTime,
         });
 
-        return servicesBuilder;
+        return containerBuilder;
     }
 
-    private static IServicesBuilder RegisterFactory(
-        this IServicesBuilder builder,
+    private static IContainerBuilder RegisterFactoryBased(
+        this IContainerBuilder builder,
         Type serviceType,
         Func<IScope, object> factory,
         LifeTime lifeTime)
@@ -60,8 +103,8 @@ public static class ServicesBuilderExtensions
         return builder;
     }
 
-    private static IServicesBuilder RegisterInstance(
-        this IServicesBuilder builder,
+    private static IContainerBuilder RegisterInstanceBased(
+        this IContainerBuilder builder,
         Type serviceType,
         object instance)
     {

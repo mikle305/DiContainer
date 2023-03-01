@@ -12,24 +12,44 @@ internal class Scope : IScope
     }
 
     public TService Resolve<TService>() 
-        => CreateInstance(typeof(TService)) is TService ? (TService)CreateInstance(typeof(TService)) : default;
+        => (TService) CreateService(typeof(TService), this);
         
-    private object CreateInstance(Type service)
+    private object CreateService(Type serviceType, IScope scope)
     {
-        if (!_descriptors.TryGetValue(service, out ServiceDescriptor descriptor))
-            throw new InvalidOperationException($"Service {service} is not registered");
+        if (!_descriptors.TryGetValue(serviceType, out ServiceDescriptor descriptor))
+            throw new InvalidOperationException($"Service {serviceType} is not registered");
 
-        ConstructorInfo? constructor = service.GetConstructors().SingleOrDefault();
-        if (constructor is null)
-            throw new InvalidOperationException($"Service {service} must have only one constructor");
+        switch (descriptor)
+        {
+            case InstanceBasedServiceDescriptor instanceBased:
+                return instanceBased.Instance;
+            
+            case FactoryBasedServiceDescriptor factoryBased:
+                return factoryBased.Factory(scope);
+            
+            case TypeBasedServiceDescriptor typeBased:
+                return CreateTypeBasedService(descriptor: typeBased, scope);
+            
+            default:
+                throw new InvalidOperationException("Invalid descriptor type");
+        }
+    }
+
+    private object CreateTypeBasedService(TypeBasedServiceDescriptor descriptor, IScope scope)
+    {
+        ConstructorInfo? constructor = descriptor
+            .ImplementationType
+            .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
+            .SingleOrDefault();
         
+        if (constructor is null)
+            throw new InvalidOperationException($"Service {descriptor.ImplementationType} must have only one constructor");
+
         ParameterInfo[] parameters = constructor.GetParameters();
         var dependencies = new object[parameters.Length];
 
         for (var i = 0; i < parameters.Length; i++)
-        {
-            dependencies[i] = CreateInstance(parameters[i].ParameterType);
-        }
+            dependencies[i] = CreateService(parameters[i].ParameterType, scope);
 
         return constructor.Invoke(dependencies);
     }

@@ -1,6 +1,6 @@
 ﻿namespace DependencyInjection.Model;
 
-public interface IServiceProvider
+public interface IContainer
 {
     public IScope CreateScope();
 }

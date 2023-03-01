@@ -1,10 +1,10 @@
 ﻿namespace DependencyInjection.Model;
 
-public class ServiceProvider : IServiceProvider
+public class Container : IContainer
 {
-    private Dictionary<Type, ServiceDescriptor> _descriptors = new();
+    private readonly Dictionary<Type, ServiceDescriptor> _descriptors;
 
-    public ServiceProvider(IEnumerable<ServiceDescriptor> services)
+    public Container(IEnumerable<ServiceDescriptor> services)
     {
         _descriptors = services.ToDictionary(d => d.ServiceType);
     }
