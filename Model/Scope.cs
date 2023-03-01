@@ -2,13 +2,22 @@
 
 internal class Scope : IScope
 {
-    private readonly IServiceFactory _serviceFactory;
+    private readonly IContainerProvider _containerProvider;
+    
 
-    public Scope(IDictionary<Type, ServiceDescriptor> descriptorsMap)
+    public Scope(IContainerProvider containerProvider)
     {
-        _serviceFactory = new ServiceFactory(descriptorsMap);
+        _containerProvider = containerProvider;
     }
 
-    public TService Resolve<TService>() 
-        => _serviceFactory.Create<TService>(this);
+    public TService Resolve<TService>()
+    {
+        ServiceDescriptor? descriptor = _containerProvider.GetDescriptor<TService>();
+
+        if (descriptor == null)
+            throw new InvalidOperationException($"{typeof(TService)} is not registered");
+        
+        if (descriptor.LifeTime == LifeTime.Transient)
+            return _containerProvider.CreateInstance<TService>(this);
+    }
 }

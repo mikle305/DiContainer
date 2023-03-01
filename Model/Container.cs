@@ -4,13 +4,17 @@ namespace DependencyInjection.Model;
 
 public class Container : IContainer
 {
-    private readonly IDictionary<Type, ServiceDescriptor> _descriptors;
+    private readonly IContainerProvider _containerProvider;
 
+    
     public Container(IEnumerable<ServiceDescriptor> services)
     {
-        _descriptors = services.ToImmutableDictionary(d => d.ServiceType);
+        IDictionary<Type, ServiceDescriptor> descriptors = services.ToImmutableDictionary(d => d.ServiceType);
+        IServiceFactory serviceFactory = new ServiceFactory(descriptors);
+        
+        _containerProvider = new ContainerProvider(serviceFactory, descriptors);
     }
 
-    public IScope CreateScope() 
-        => new Scope(_descriptors);
+    public IScope CreateScope()
+        => new Scope(_containerProvider);
 }
