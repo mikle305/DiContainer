@@ -1,8 +1,6 @@
-﻿using System;
+﻿namespace DependencyInjection.Model;
 
-namespace DependencyInjection.Model;
-
-public class InstanceBasedServiceDescriptor : ServiceDescriptor
+internal class InstanceBasedServiceDescriptor : ServiceDescriptor
 {
     public object Instance { get; }
 

@@ -16,7 +16,7 @@ internal class ServiceFactory : IServiceFactory
         _activatorsMap = new ConcurrentDictionary<Type, Func<IScope, object>>();
     }
 
-    public TService Create<TService>(IScope scope)
+    public object Create<TService>(IScope scope)
     {
         Type serviceType = typeof(TService);
         
@@ -24,7 +24,7 @@ internal class ServiceFactory : IServiceFactory
             .GetOrAdd(key: serviceType, valueFactory: CreateActivator)
             .Invoke(scope);
         
-        return (TService) service;
+        return service;
     }
 
     private Func<IScope, object> CreateActivator(Type serviceType)
@@ -53,12 +53,12 @@ internal class ServiceFactory : IServiceFactory
 
         ParameterInfo[] args = ctor.GetParameters();
 
-        return _ =>
+        return s =>
         {
             var dependencies = new object[args.Length];
 
             for (var i = 0; i < args.Length; i++)
-                dependencies[i] = CreateActivator(args[i].ParameterType);
+                dependencies[i] = CreateActivator(args[i].ParameterType).Invoke(s);
 
             return ctor.Invoke(dependencies);
         };

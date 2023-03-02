@@ -2,5 +2,5 @@
 
 internal interface IServiceFactory
 {
-    public TService Create<TService>(IScope scope);
+    public object Create<TService>(IScope scope);
 }

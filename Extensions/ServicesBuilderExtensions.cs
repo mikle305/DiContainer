@@ -1,78 +1,108 @@
-﻿using DependencyInjection.Helpers;
-using DependencyInjection.Model;
+﻿using DependencyInjection.Model;
 
 namespace DependencyInjection.Extensions;
 
 public static class ServicesBuilderExtensions
 {
-    public static IContainerBuilder RegisterSingle<TService, TImplementation>(this IContainerBuilder builder) where TService : class
-        => builder.RegisterTypeBased(
+    public static IContainerBuilder RegisterSingle<TService, TImplementation>(this IContainerBuilder builder)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        return builder.RegisterTypeBased(
             serviceType: typeof(TService),
-            serviceImplementation: typeof(TImplementation), 
+            serviceImplementation: typeof(TImplementation),
             lifeTime: LifeTime.Single);
-    
-    public static IContainerBuilder RegisterScoped<TService, TImplementation>(this IContainerBuilder builder) 
-        => builder.RegisterTypeBased(
-            serviceType: typeof(TService),
-            serviceImplementation: typeof(TImplementation), 
-            lifeTime: LifeTime.Scoped);
+    }
 
-    public static IContainerBuilder RegisterTransient<TService, TImplementation>(this IContainerBuilder builder) 
-        => builder.RegisterTypeBased(
+    public static IContainerBuilder RegisterScoped<TService, TImplementation>(this IContainerBuilder builder)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        return builder.RegisterTypeBased(
             serviceType: typeof(TService),
-            serviceImplementation: typeof(TImplementation), 
-            lifeTime: LifeTime.Transient);
-    
-    
-    public static IContainerBuilder RegisterSingle<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
-        => builder.RegisterFactoryBased(
-            serviceType: typeof(TService), 
-            factory: s => 
-                factory(s) ?? ExceptionsHelper.ThrowServiceFactoryReturnsNull(),
-            lifeTime: LifeTime.Single);
-    
-    public static IContainerBuilder RegisterScoped<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
-        => builder.RegisterFactoryBased(
-            serviceType: typeof(TService), 
-            factory: s => 
-                factory(s) ?? ExceptionsHelper.ThrowServiceFactoryReturnsNull(),
+            serviceImplementation: typeof(TImplementation),
             lifeTime: LifeTime.Scoped);
+    }
+
+
+    public static IContainerBuilder RegisterTransient<TService, TImplementation>(this IContainerBuilder builder)
+        where TService : class 
+        where TImplementation : class, TService
+    {
+        return builder.RegisterTypeBased(
+            serviceType: typeof(TService),
+            serviceImplementation: typeof(TImplementation),
+            lifeTime: LifeTime.Transient);
+    }
+
+
+    public static IContainerBuilder RegisterSingle<TService>(this IContainerBuilder builder) 
+        where TService : class
+    {
+        return builder.RegisterTypeBased(
+            serviceType: typeof(TService),
+            serviceImplementation: typeof(TService),
+            lifeTime: LifeTime.Single);
+    }
+
+    public static IContainerBuilder RegisterScoped<TService>(this IContainerBuilder builder) 
+        where TService : class
+    {
+        return builder.RegisterTypeBased(
+            serviceType: typeof(TService),
+            serviceImplementation: typeof(TService),
+            lifeTime: LifeTime.Scoped);
+    }
+
+    public static IContainerBuilder RegisterTransient<TService>(this IContainerBuilder builder) 
+        where TService : class
+    {
+        return builder.RegisterTypeBased(
+            serviceType: typeof(TService),
+            serviceImplementation: typeof(TService),
+            lifeTime: LifeTime.Transient);
+    }
+
+
+    public static IContainerBuilder RegisterSingle<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
+        where TService : class
+    {
+        return builder.RegisterFactoryBased(
+            serviceType: typeof(TService),
+            factory: factory,
+            lifeTime: LifeTime.Single);
+    }
+
+    public static IContainerBuilder RegisterScoped<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
+        where TService : class
+    {
+        return builder.RegisterFactoryBased(
+            serviceType: typeof(TService),
+            factory: factory,
+            lifeTime: LifeTime.Scoped);
+    }
 
     public static IContainerBuilder RegisterTransient<TService>(this IContainerBuilder builder, Func<IScope, TService> factory)
-        => builder.RegisterFactoryBased(
-            serviceType: typeof(TService), 
-            factory: s => 
-                factory(s) ?? ExceptionsHelper.ThrowServiceFactoryReturnsNull(),
+        where TService : class 
+    {
+        return builder.RegisterFactoryBased(
+            serviceType: typeof(TService),
+            factory: factory,
             lifeTime: LifeTime.Transient);
+    }
 
-    
-    public static IContainerBuilder RegisterSingle<TService>(this ContainerBuilder builder, TService instance) 
-        => builder.RegisterInstanceBased(
-            serviceType: typeof(TService), 
-            instance ?? throw new ArgumentNullException(nameof(instance)));
-    
-    
-    public static IContainerBuilder RegisterSingle<TService>(this IContainerBuilder builder) where TService : class
-        => builder.RegisterTypeBased(
-            serviceType: typeof(TService), 
-            serviceImplementation: typeof(TService), 
-            lifeTime: LifeTime.Single);
-    
-    public static IContainerBuilder RegisterScoped<TService>(this IContainerBuilder builder) where TService : class
-        => builder.RegisterTypeBased(
-            serviceType: typeof(TService), 
-            serviceImplementation: typeof(TService), 
-            lifeTime: LifeTime.Scoped);
 
-    public static IContainerBuilder RegisterTransient<TService>(this IContainerBuilder builder) where TService : class
-        => builder.RegisterTypeBased(
-            serviceType: typeof(TService), 
-            serviceImplementation: typeof(TService), 
-            lifeTime: LifeTime.Transient);
+    public static IContainerBuilder RegisterSingle<TService>(this IContainerBuilder builder, TService instance)
+        where TService : class 
+    {
+        return builder.RegisterInstanceBased(
+            serviceType: typeof(TService),
+            instance: instance);
+    }
 
-    
+
     private static IContainerBuilder RegisterTypeBased(
-        this IContainerBuilder containerBuilder, 
+        this IContainerBuilder containerBuilder,
         Type serviceType,
         Type serviceImplementation,
         LifeTime lifeTime)

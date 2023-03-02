@@ -1,8 +1,6 @@
-﻿using System;
+﻿namespace DependencyInjection.Model;
 
-namespace DependencyInjection.Model;
-
-public class TypeBasedServiceDescriptor : ServiceDescriptor
+internal class TypeBasedServiceDescriptor : ServiceDescriptor
 {
     public Type ImplementationType { get; init; }
 }
