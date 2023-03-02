@@ -2,24 +2,22 @@
 using System.Reflection;
 using DependencyInjection.Helpers;
 
-namespace DependencyInjection.Model;
+namespace DependencyInjection.Model.Factory;
 
-internal class ServiceFactory : IServiceFactory
+public abstract class ServiceFactory : IServiceFactory
 {
     private readonly IDictionary<Type, ServiceDescriptor> _descriptorsMap;
     private readonly ConcurrentDictionary<Type, Func<IScope, object>> _activatorsMap;
 
 
-    public ServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap)
+    protected ServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap)
     {
         _descriptorsMap = descriptorsMap;
         _activatorsMap = new ConcurrentDictionary<Type, Func<IScope, object>>();
     }
 
-    public object Create<TService>(IScope scope)
+    public object Create(IScope scope, Type serviceType)
     {
-        Type serviceType = typeof(TService);
-        
         object service = _activatorsMap
             .GetOrAdd(key: serviceType, valueFactory: CreateActivator)
             .Invoke(scope);
@@ -30,7 +28,7 @@ internal class ServiceFactory : IServiceFactory
     private Func<IScope, object> CreateActivator(Type serviceType)
     {
         if (!_descriptorsMap.TryGetValue(serviceType, out ServiceDescriptor? descriptor))
-            throw new InvalidOperationException($"Service {serviceType} is not registered");
+            ExceptionsHelper.ThrowServiceNotRegistered(serviceType.ToString());
 
         if (descriptor is InstanceBasedServiceDescriptor instanceBased)
             return _ => instanceBased.Instance;
@@ -38,29 +36,25 @@ internal class ServiceFactory : IServiceFactory
         if (descriptor is FactoryBasedServiceDescriptor factoryBased)
             return factoryBased.Factory;
 
-        return CreateTypeBasedActivator((TypeBasedServiceDescriptor) descriptor);
+        var typeBased = (TypeBasedServiceDescriptor) descriptor;
+        
+        return CreateTypeBasedActivator(typeBased);
     }
 
     private Func<IScope, object> CreateTypeBasedActivator(TypeBasedServiceDescriptor descriptor)
     {
-        ConstructorInfo? ctor = descriptor
-            .ImplementationType
+        Type implementationType = descriptor.ImplementationType;
+        ConstructorInfo? ctor = implementationType
             .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
             .SingleOrDefault();
 
-        if (ctor == null)
-            ExceptionsHelper.ThrowServiceSingleConstructor(descriptor.ImplementationType.ToString());
+        if (ctor is null)
+            ExceptionsHelper.ThrowServiceSingleConstructor(implementationType.ToString());
 
         ParameterInfo[] args = ctor.GetParameters();
 
-        return s =>
-        {
-            var dependencies = new object[args.Length];
-
-            for (var i = 0; i < args.Length; i++)
-                dependencies[i] = CreateActivator(args[i].ParameterType).Invoke(s);
-
-            return ctor.Invoke(dependencies);
-        };
+        return CreateCtorInvoker(ctor, args);
     }
+
+    protected abstract Func<IScope, object> CreateCtorInvoker(ConstructorInfo ctor, ParameterInfo[] args);
 }

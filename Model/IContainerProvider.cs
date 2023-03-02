@@ -2,9 +2,9 @@
 
 internal interface IContainerProvider
 {
-    public object CreateInstance<TService>(IScope scope);
+    public object CreateInstance(IScope scope, Type serviceType);
 
-    public ServiceDescriptor? GetDescriptor<TService>();
+    public ServiceDescriptor? GetDescriptor(Type serviceType);
 
     public IScope GetRootScope();
 }

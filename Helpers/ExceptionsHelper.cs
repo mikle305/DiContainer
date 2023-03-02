@@ -7,4 +7,7 @@ public static class ExceptionsHelper
     
     public static object ThrowServiceNotRegistered(string serviceName)
         => throw new InvalidOperationException($"Service {serviceName} is not registered");
+
+    public static object ThrowAsyncDisposeInInvalidContext()
+        => throw new InvalidOperationException("Can not use async dispose in default dispose context");
 }

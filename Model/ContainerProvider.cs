@@ -1,4 +1,6 @@
-﻿namespace DependencyInjection.Model;
+﻿using DependencyInjection.Model.Factory;
+
+namespace DependencyInjection.Model;
 
 internal class ContainerProvider : IContainerProvider
 {
@@ -14,12 +16,12 @@ internal class ContainerProvider : IContainerProvider
         _rootScope = new Scope(this);
     }
 
-    public object CreateInstance<TService>(IScope scope) 
-        => _serviceFactory.Create<TService>(scope);
+    public object CreateInstance(IScope scope, Type serviceType) 
+        => _serviceFactory.Create(scope, serviceType);
 
-    public ServiceDescriptor? GetDescriptor<TService>()
+    public ServiceDescriptor? GetDescriptor(Type serviceType)
     {
-        _descriptors.TryGetValue(typeof(TService), out ServiceDescriptor? descriptor);
+        _descriptors.TryGetValue(serviceType, out ServiceDescriptor? descriptor);
         return descriptor;
     }
 
