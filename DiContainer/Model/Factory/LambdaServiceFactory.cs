@@ -23,11 +23,11 @@ public class LambdaServiceFactory : ServiceFactory
         var resolveDependencyExpressions = new Expression[args.Length];
         for (var i = 0; i < args.Length; i++)
         {
-            ConstantExpression parameter = Expression.Constant(args[i].ParameterType);
+            ConstantExpression serviceParameter = Expression.Constant(args[i].ParameterType);
 
             // scope.Resolve(Type service1)
             resolveDependencyExpressions[i] = Expression.Convert(
-                Expression.Call(scopeParameter, _resolveMethod, parameter), 
+                Expression.Call(scopeParameter, _resolveMethod, serviceParameter), 
                 args[i].ParameterType);
         }
 

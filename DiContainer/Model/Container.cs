@@ -10,7 +10,7 @@ public class Container : IContainer
     private readonly IContainerProvider _containerProvider;
 
 
-    internal Container(IEnumerable<ServiceDescriptor> services) : this(services, typeof(ReflectionServiceFactory))
+    internal Container(IEnumerable<ServiceDescriptor> services) : this(services, typeof(LambdaServiceFactory))
     {
     }
 
