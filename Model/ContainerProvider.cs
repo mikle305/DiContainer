@@ -9,7 +9,7 @@ internal class ContainerProvider : IContainerProvider
     private readonly IScope _rootScope;
 
 
-    public ContainerProvider(IServiceFactory serviceFactory, IDictionary<Type, ServiceDescriptor> descriptors)
+    public ContainerProvider(IDictionary<Type, ServiceDescriptor> descriptors, IServiceFactory serviceFactory)
     {
         _serviceFactory = serviceFactory;
         _descriptors = descriptors;

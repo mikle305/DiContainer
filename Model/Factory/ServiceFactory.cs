@@ -21,7 +21,7 @@ public abstract class ServiceFactory : IServiceFactory
         object service = _activatorsMap
             .GetOrAdd(key: serviceType, valueFactory: CreateActivator)
             .Invoke(scope);
-        
+
         return service;
     }
 
@@ -36,22 +36,20 @@ public abstract class ServiceFactory : IServiceFactory
         if (descriptor is FactoryBasedServiceDescriptor factoryBased)
             return factoryBased.Factory;
 
-        var typeBased = (TypeBasedServiceDescriptor) descriptor;
-        
+        var typeBased = (TypeBasedServiceDescriptor)descriptor;
+
         return CreateTypeBasedActivator(typeBased);
     }
 
     private Func<IScope, object> CreateTypeBasedActivator(TypeBasedServiceDescriptor descriptor)
     {
         Type implementationType = descriptor.ImplementationType;
-        ConstructorInfo? ctor = implementationType
-            .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
-            .SingleOrDefault();
+        ConstructorInfo? ctor = ReflectionHelper.FindSingleConstructor(implementationType);
 
         if (ctor is null)
             ExceptionsHelper.ThrowServiceSingleConstructor(implementationType.ToString());
 
-        ParameterInfo[] args = ctor.GetParameters();
+        ParameterInfo[] args = ReflectionHelper.FindArguments(ctor);
 
         return CreateCtorInvoker(ctor, args);
     }

@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
+using DependencyInjection.Helpers;
 
 namespace DependencyInjection.Model.Factory;
 
-internal class ReflectionServiceFactory : ServiceFactory
+public class ReflectionServiceFactory : ServiceFactory
 {
     public ReflectionServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)
     {
@@ -17,7 +18,7 @@ internal class ReflectionServiceFactory : ServiceFactory
             for (var i = 0; i < args.Length; i++)
                 dependencies[i] = s.Resolve(args[i].ParameterType);
 
-            return ctor.Invoke(dependencies);
+            return ReflectionHelper.Instantiate(ctor, dependencies);
         };
     }
 }
