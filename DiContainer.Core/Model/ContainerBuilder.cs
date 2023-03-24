@@ -1,7 +1,7 @@
-﻿using DependencyInjection.Helpers;
-using DependencyInjection.Model.Factory;
+﻿using DiContainer.Core.Helpers;
+using DiContainer.Core.Model.ServicesCreators;
 
-namespace DependencyInjection.Model;
+namespace DiContainer.Core.Model;
 
 public class ContainerBuilder : IContainerBuilder
 {
@@ -14,7 +14,7 @@ public class ContainerBuilder : IContainerBuilder
         _services.Add(serviceDescriptor);
     }
 
-    public ContainerBuilder WithCustomFactory<TServiceFactory>() where TServiceFactory : ServiceFactory
+    public ContainerBuilder WithCustomServiceCreator<TServiceFactory>() where TServiceFactory : ServiceFactory
     {
         if (_serviceFactory is not null)
             ExceptionsHelper.ThrowServiceFactoryAlreadyAdded();

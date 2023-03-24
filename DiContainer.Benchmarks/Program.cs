@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
-using Benchmarks;
+using DiContainer.Benchmarks;
 
 BenchmarkRunner.Run<ContainerBenchmark>();

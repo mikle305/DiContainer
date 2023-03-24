@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace DependencyInjection.Helpers;
+namespace DiContainer.Core.Helpers;
 
 public static class ReflectionHelper
 {

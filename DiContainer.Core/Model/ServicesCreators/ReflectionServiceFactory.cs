@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using DependencyInjection.Helpers;
+using DiContainer.Core.Helpers;
 
-namespace DependencyInjection.Model.Factory;
+namespace DiContainer.Core.Model.ServicesCreators;
 
 public class ReflectionServiceFactory : ServiceFactory
 {

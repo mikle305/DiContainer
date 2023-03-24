@@ -1,4 +1,4 @@
-﻿namespace DependencyInjection.Helpers;
+﻿namespace DiContainer.Core.Helpers;
 
 public static class ExceptionsHelper
 {

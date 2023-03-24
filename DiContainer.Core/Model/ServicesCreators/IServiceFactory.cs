@@ -1,4 +1,4 @@
-﻿namespace DependencyInjection.Model.Factory;
+﻿namespace DiContainer.Core.Model.ServicesCreators;
 
 internal interface IServiceFactory
 {

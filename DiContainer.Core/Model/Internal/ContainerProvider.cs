@@ -1,6 +1,6 @@
-﻿using DependencyInjection.Model.Factory;
+﻿using DiContainer.Core.Model.ServicesCreators;
 
-namespace DependencyInjection.Model;
+namespace DiContainer.Core.Model.Internal;
 
 internal class ContainerProvider : IContainerProvider
 {

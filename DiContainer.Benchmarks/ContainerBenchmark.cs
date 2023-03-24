@@ -1,12 +1,12 @@
 using Autofac;
 using BenchmarkDotNet.Attributes;
-using DependencyInjection.Extensions;
-using DependencyInjection.Model;
-using DependencyInjection.Model.Factory;
+using DiContainer.Core.Extensions;
+using DiContainer.Core.Model;
+using DiContainer.Core.Model.ServicesCreators;
 using Microsoft.Extensions.DependencyInjection;
-using ContainerBuilder = DependencyInjection.Model.ContainerBuilder;
+using ContainerBuilder = DiContainer.Core.Model.ContainerBuilder;
 
-namespace Benchmarks;
+namespace DiContainer.Benchmarks;
 
 [MemoryDiagnoser]
 public class ContainerBenchmark
@@ -19,10 +19,10 @@ public class ContainerBenchmark
     public ContainerBenchmark()
     {
         _reflectionBased = InitCustomContainer(
-            new ContainerBuilder().WithCustomFactory<ReflectionServiceFactory>());
+            new ContainerBuilder().WithCustomServiceCreator<ReflectionServiceFactory>());
 
         _lambdaBased = InitCustomContainer(
-            new ContainerBuilder().WithCustomFactory<LambdaServiceFactory>());
+            new ContainerBuilder().WithCustomServiceCreator<ExpressionsServiceFactory>());
 
         _autofac = InitAutofac();
 

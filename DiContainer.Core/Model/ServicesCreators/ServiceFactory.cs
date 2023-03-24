@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
-using DependencyInjection.Helpers;
+using DiContainer.Core.Helpers;
 
-namespace DependencyInjection.Model.Factory;
+namespace DiContainer.Core.Model.ServicesCreators;
 
 public abstract class ServiceFactory : IServiceFactory
 {

@@ -1,16 +1,17 @@
 ﻿using System.Collections.Immutable;
 using System.Reflection;
-using DependencyInjection.Helpers;
-using DependencyInjection.Model.Factory;
+using DiContainer.Core.Helpers;
+using DiContainer.Core.Model.Internal;
+using DiContainer.Core.Model.ServicesCreators;
 
-namespace DependencyInjection.Model;
+namespace DiContainer.Core.Model;
 
 public class Container : IContainer
 {
     private readonly IContainerProvider _containerProvider;
 
 
-    internal Container(IEnumerable<ServiceDescriptor> services) : this(services, typeof(LambdaServiceFactory))
+    internal Container(IEnumerable<ServiceDescriptor> services) : this(services, typeof(ExpressionsServiceFactory))
     {
     }
 

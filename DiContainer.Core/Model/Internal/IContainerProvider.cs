@@ -1,4 +1,4 @@
-﻿namespace DependencyInjection.Model;
+﻿namespace DiContainer.Core.Model.Internal;
 
 internal interface IContainerProvider
 {

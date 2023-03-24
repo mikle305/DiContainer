@@ -1,15 +1,15 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
-using DependencyInjection.Helpers;
+using DiContainer.Core.Helpers;
 
-namespace DependencyInjection.Model.Factory;
+namespace DiContainer.Core.Model.ServicesCreators;
 
-public class LambdaServiceFactory : ServiceFactory
+public class ExpressionsServiceFactory : ServiceFactory
 {
     private static MethodInfo? _resolveMethod;
 
     
-    public LambdaServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)
+    public ExpressionsServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)
     {
         _resolveMethod = ReflectionHelper
             .FindMethodOverloads(typeof(IScope), nameof(IScope.Resolve))

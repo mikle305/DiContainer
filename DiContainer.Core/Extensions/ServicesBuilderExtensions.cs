@@ -1,6 +1,6 @@
-﻿using DependencyInjection.Model;
+﻿using DiContainer.Core.Model;
 
-namespace DependencyInjection.Extensions;
+namespace DiContainer.Core.Extensions;
 
 public static class ServicesBuilderExtensions
 {

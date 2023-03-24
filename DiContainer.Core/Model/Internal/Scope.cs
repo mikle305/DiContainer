@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using DependencyInjection.Helpers;
+using DiContainer.Core.Helpers;
 
-namespace DependencyInjection.Model;
+namespace DiContainer.Core.Model.Internal;
 
 internal class Scope : IScope
 {
