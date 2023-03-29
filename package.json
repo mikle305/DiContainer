@@ -1,0 +1,12 @@
+{
+  "name": "com.mikle305.uni-dependency-injection",
+  "version": "1.0.0",
+  "displayName": "Simple Unity DI Container",
+  "description": "",
+  "unity": "2022.1",
+  "author": {
+    "name": "Mihail Babichev",
+    "email": "",
+    "url": "https://github.com/mikle305hd"
+  }
+}
