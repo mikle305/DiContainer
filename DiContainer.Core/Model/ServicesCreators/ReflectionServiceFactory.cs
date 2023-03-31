@@ -1,24 +1,27 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using DiContainer.Core.Helpers;
 
-namespace DiContainer.Core.Model.ServicesCreators;
-
-public class ReflectionServiceFactory : ServiceFactory
+namespace DiContainer.Core.Model.ServicesCreators
 {
-    public ReflectionServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)
+    public class ReflectionServiceFactory : ServiceFactory
     {
-    }
-
-    protected override Func<IScope, object> CreateCtorInvoker(ConstructorInfo ctor, ParameterInfo[] args)
-    {
-        return s =>
+        public ReflectionServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)
         {
-            var dependencies = new object[args.Length];
+        }
 
-            for (var i = 0; i < args.Length; i++)
-                dependencies[i] = s.Resolve(args[i].ParameterType);
+        protected override Func<IScope, object> CreateCtorInvoker(ConstructorInfo ctor, ParameterInfo[] args)
+        {
+            return s =>
+            {
+                var dependencies = new object[args.Length];
 
-            return ReflectionHelper.Instantiate(ctor, dependencies);
-        };
+                for (var i = 0; i < args.Length; i++)
+                    dependencies[i] = s.Resolve(args[i].ParameterType);
+
+                return ReflectionHelper.Instantiate(ctor, dependencies);
+            };
+        }
     }
 }

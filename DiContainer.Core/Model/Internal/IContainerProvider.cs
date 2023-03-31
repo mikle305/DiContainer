@@ -1,10 +1,13 @@
-﻿namespace DiContainer.Core.Model.Internal;
+﻿using System;
 
-internal interface IContainerProvider
+namespace DiContainer.Core.Model.Internal
 {
-    public object CreateInstance(IScope scope, Type serviceType);
+    internal interface IContainerProvider
+    {
+        public object CreateInstance(IScope scope, Type serviceType);
 
-    public ServiceDescriptor? GetDescriptor(Type serviceType);
+        public ServiceDescriptor? GetDescriptor(Type serviceType);
 
-    public IScope GetRootScope();
+        public IScope GetRootScope();
+    }
 }

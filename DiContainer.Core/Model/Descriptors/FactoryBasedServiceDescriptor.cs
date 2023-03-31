@@ -1,6 +1,15 @@
-﻿namespace DiContainer.Core.Model;
+﻿using System;
 
-internal class FactoryBasedServiceDescriptor : ServiceDescriptor
+namespace DiContainer.Core.Model
 {
-    public Func<IScope, object> Factory { get; init; }
+    internal class FactoryBasedServiceDescriptor : ServiceDescriptor
+    {
+        public Func<IScope, object> Factory { get; }
+
+        public FactoryBasedServiceDescriptor(Type serviceType, LifeTime lifeTime, Func<IScope, object> factory)
+            : base(serviceType, lifeTime)
+        {
+            Factory = factory;
+        }
+    }
 }

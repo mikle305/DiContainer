@@ -1,6 +1,9 @@
-﻿namespace DiContainer.Core.Model.ServicesCreators;
+﻿using System;
 
-internal interface IServiceFactory
+namespace DiContainer.Core.Model.ServicesCreators
 {
-    public object Create(IScope scope, Type serviceType);
+    internal interface IServiceFactory
+    {
+        public object Create(IScope scope, Type serviceType);
+    }
 }

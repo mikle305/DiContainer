@@ -1,8 +1,9 @@
-﻿namespace DiContainer.Core.Model;
-
-public enum LifeTime
+﻿namespace DiContainer.Core.Model
 {
-    Single,
-    Scoped,
-    Transient,
+    public enum LifeTime
+    {
+        Single,
+        Scoped,
+        Transient,
+    }
 }

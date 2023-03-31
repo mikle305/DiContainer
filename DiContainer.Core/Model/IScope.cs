@@ -1,8 +1,11 @@
-﻿namespace DiContainer.Core.Model;
+﻿using System;
 
-public interface IScope : IDisposable, IAsyncDisposable
+namespace DiContainer.Core.Model
 {
-    public TService Resolve<TService>();
+    public interface IScope : IDisposable, IAsyncDisposable
+    {
+        public TService Resolve<TService>();
     
-    public object Resolve(Type serviceType);
+        public object Resolve(Type serviceType);
+    }
 }

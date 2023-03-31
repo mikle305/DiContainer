@@ -1,6 +1,9 @@
-﻿namespace DiContainer.Core.Model;
+﻿using System;
 
-public interface IContainer : IDisposable, IAsyncDisposable
+namespace DiContainer.Core.Model
 {
-    public IScope CreateScope();
+    public interface IContainer : IDisposable, IAsyncDisposable
+    {
+        public IScope CreateScope();
+    }
 }

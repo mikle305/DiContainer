@@ -1,8 +1,18 @@
-﻿namespace DiContainer.Core.Model;
+﻿using System;
 
-public abstract class ServiceDescriptor
+namespace DiContainer.Core.Model
 {
-    public Type ServiceType { get; init; }
+    public abstract class ServiceDescriptor
+    {
+        public Type ServiceType { get; protected set; }
 
-    public LifeTime LifeTime { get; init; }
+        public LifeTime LifeTime { get; protected set; }
+        
+        protected ServiceDescriptor(Type serviceType, LifeTime lifeTime)
+        {
+            ServiceType = serviceType;
+            LifeTime = lifeTime;
+        }
+    }
 }
+

@@ -1,13 +1,15 @@
-﻿namespace DiContainer.Core.Model;
+﻿using System;
 
-internal class InstanceBasedServiceDescriptor : ServiceDescriptor
+namespace DiContainer.Core.Model
 {
-    public object Instance { get; }
-
-    public InstanceBasedServiceDescriptor(Type serviceType, object instance)
+    internal class InstanceBasedServiceDescriptor : ServiceDescriptor
     {
-        Instance = instance;
-        ServiceType = serviceType;
-        LifeTime = LifeTime.Single;
+        public object Instance { get; }
+
+        public InstanceBasedServiceDescriptor(Type serviceType, object instance) : base(serviceType, LifeTime.Single)
+        {
+            Instance = instance;
+        }
     }
 }
+

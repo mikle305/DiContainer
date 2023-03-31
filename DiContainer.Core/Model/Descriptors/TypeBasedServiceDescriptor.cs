@@ -1,6 +1,15 @@
-﻿namespace DiContainer.Core.Model;
+﻿using System;
 
-internal class TypeBasedServiceDescriptor : ServiceDescriptor
+namespace DiContainer.Core.Model
 {
-    public Type ImplementationType { get; init; }
+    internal class TypeBasedServiceDescriptor : ServiceDescriptor
+    {
+        public Type ImplementationType { get; }
+
+        public TypeBasedServiceDescriptor(Type serviceType, LifeTime lifeTime, Type implementationType) 
+            : base(serviceType, lifeTime)
+        {
+            ImplementationType = implementationType;
+        }
+    }
 }
