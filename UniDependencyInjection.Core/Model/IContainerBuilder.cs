@@ -1,6 +1,7 @@
-﻿using DiContainer.Core.Model.ServicesCreators;
+﻿using UniDependencyInjection.Core.Model.Descriptors;
+using UniDependencyInjection.Core.Model.ServiceCreators;
 
-namespace DiContainer.Core.Model
+namespace UniDependencyInjection.Core.Model
 {
     public interface IContainerBuilder
     {

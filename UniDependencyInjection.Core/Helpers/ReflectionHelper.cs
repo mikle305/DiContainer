@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace DiContainer.Core.Helpers
+namespace UniDependencyInjection.Core.Helpers
 {
     public static class ReflectionHelper
     {
-        public static ConstructorInfo? FindSingleConstructor(Type type) 
+        public static ConstructorInfo FindSingleConstructor(Type type) 
             => type
                 .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
                 .SingleOrDefault();

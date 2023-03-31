@@ -1,7 +1,8 @@
 ﻿using System;
-using DiContainer.Core.Model;
+using UniDependencyInjection.Core.Model;
+using UniDependencyInjection.Core.Model.Descriptors;
 
-namespace DiContainer.Core.Extensions
+namespace UniDependencyInjection.Core.Extensions
 {
     public static class ServicesBuilderExtensions
     {

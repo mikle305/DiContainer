@@ -1,4 +1,4 @@
-﻿namespace DiContainer.Core.Model
+﻿namespace UniDependencyInjection.Core.Model
 {
     public enum LifeTime
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiContainer.Core.Model.ServicesCreators
+namespace UniDependencyInjection.Core.Model.ServiceCreators
 {
     internal interface IServiceFactory
     {

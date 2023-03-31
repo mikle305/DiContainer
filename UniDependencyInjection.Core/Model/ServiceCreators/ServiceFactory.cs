@@ -2,9 +2,10 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
-using DiContainer.Core.Helpers;
+using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model.Descriptors;
 
-namespace DiContainer.Core.Model.ServicesCreators
+namespace UniDependencyInjection.Core.Model.ServiceCreators
 {
     public abstract class ServiceFactory : IServiceFactory
     {
@@ -29,7 +30,7 @@ namespace DiContainer.Core.Model.ServicesCreators
 
         private Func<IScope, object> CreateActivator(Type serviceType)
         {
-            if (!_descriptorsMap.TryGetValue(serviceType, out ServiceDescriptor? descriptor))
+            if (!_descriptorsMap.TryGetValue(serviceType, out ServiceDescriptor descriptor))
                 ExceptionsHelper.ThrowServiceNotRegistered(serviceType.ToString());
 
             if (descriptor is InstanceBasedServiceDescriptor instanceBased)
@@ -46,7 +47,7 @@ namespace DiContainer.Core.Model.ServicesCreators
         private Func<IScope, object> CreateTypeBasedActivator(TypeBasedServiceDescriptor descriptor)
         {
             Type implementationType = descriptor.ImplementationType;
-            ConstructorInfo? ctor = ReflectionHelper.FindSingleConstructor(implementationType);
+            ConstructorInfo ctor = ReflectionHelper.FindSingleConstructor(implementationType);
 
             if (ctor is null)
                 ExceptionsHelper.ThrowServiceSingleConstructor(implementationType.ToString());

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using DiContainer.Core.Helpers;
-using DiContainer.Core.Model.ServicesCreators;
+using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model.Descriptors;
+using UniDependencyInjection.Core.Model.ServiceCreators;
 
-namespace DiContainer.Core.Model
+namespace UniDependencyInjection.Core.Model
 {
     public class ContainerBuilder : IContainerBuilder
     {
         private readonly List<ServiceDescriptor> _services = new();
-        private Type? _serviceFactory;
+        private Type _serviceFactory;
 
 
         public void Register(ServiceDescriptor serviceDescriptor)

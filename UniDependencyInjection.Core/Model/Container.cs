@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using DiContainer.Core.Helpers;
-using DiContainer.Core.Model.Internal;
-using DiContainer.Core.Model.ServicesCreators;
+using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model.Descriptors;
+using UniDependencyInjection.Core.Model.Internal;
+using UniDependencyInjection.Core.Model.ServiceCreators;
 
-namespace DiContainer.Core.Model
+namespace UniDependencyInjection.Core.Model
 {
     public class Container : IContainer
     {
@@ -23,7 +24,7 @@ namespace DiContainer.Core.Model
             IDictionary<Type, ServiceDescriptor> descriptors =
                 services.ToDictionary(d => d.ServiceType);
 
-            ConstructorInfo? ctor = ReflectionHelper.FindSingleConstructor(serviceFactoryType);
+            ConstructorInfo ctor = ReflectionHelper.FindSingleConstructor(serviceFactoryType);
             ParameterInfo[] args = ReflectionHelper.FindArguments(ctor);
         
             var parameters = new object[args.Length];

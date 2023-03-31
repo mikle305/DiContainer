@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiContainer.Core.Helpers
+namespace UniDependencyInjection.Core.Helpers
 {
     public static class ExceptionsHelper
     {

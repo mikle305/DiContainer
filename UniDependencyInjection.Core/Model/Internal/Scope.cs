@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using DiContainer.Core.Helpers;
+using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model.Descriptors;
 
-namespace DiContainer.Core.Model.Internal
+namespace UniDependencyInjection.Core.Model.Internal
 {
     internal class Scope : IScope
     {
@@ -22,7 +23,7 @@ namespace DiContainer.Core.Model.Internal
     
         public object Resolve(Type serviceType)
         {
-            ServiceDescriptor? descriptor = _containerProvider.GetDescriptor(serviceType);
+            ServiceDescriptor descriptor = _containerProvider.GetDescriptor(serviceType);
             IScope rootScope = _containerProvider.GetRootScope();
     
             if (descriptor is null)

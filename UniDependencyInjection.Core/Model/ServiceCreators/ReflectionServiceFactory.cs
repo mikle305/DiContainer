@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using DiContainer.Core.Helpers;
+using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model.Descriptors;
 
-namespace DiContainer.Core.Model.ServicesCreators
+namespace UniDependencyInjection.Core.Model.ServiceCreators
 {
     public class ReflectionServiceFactory : ServiceFactory
     {

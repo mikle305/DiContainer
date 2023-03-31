@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiContainer.Core.Model
+namespace UniDependencyInjection.Core.Model
 {
     public interface IScope : IDisposable, IAsyncDisposable
     {

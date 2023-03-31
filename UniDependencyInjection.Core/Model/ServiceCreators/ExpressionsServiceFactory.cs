@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using DiContainer.Core.Helpers;
+using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model.Descriptors;
 
-namespace DiContainer.Core.Model.ServicesCreators
+namespace UniDependencyInjection.Core.Model.ServiceCreators
 {
     public class ExpressionsServiceFactory : ServiceFactory
     {
-        private static MethodInfo? _resolveMethod;
+        private static MethodInfo _resolveMethod;
 
     
         public ExpressionsServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)

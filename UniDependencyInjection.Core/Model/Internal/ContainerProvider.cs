@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using DiContainer.Core.Model.ServicesCreators;
+using UniDependencyInjection.Core.Model.Descriptors;
+using UniDependencyInjection.Core.Model.ServiceCreators;
 
-namespace DiContainer.Core.Model.Internal
+namespace UniDependencyInjection.Core.Model.Internal
 {
     internal class ContainerProvider : IContainerProvider
     {
@@ -21,9 +22,9 @@ namespace DiContainer.Core.Model.Internal
         public object CreateInstance(IScope scope, Type serviceType) 
             => _serviceFactory.Create(scope, serviceType);
 
-        public ServiceDescriptor? GetDescriptor(Type serviceType)
+        public ServiceDescriptor GetDescriptor(Type serviceType)
         {
-            _descriptors.TryGetValue(serviceType, out ServiceDescriptor? descriptor);
+            _descriptors.TryGetValue(serviceType, out ServiceDescriptor descriptor);
             return descriptor;
         }
 
