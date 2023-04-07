@@ -20,7 +20,7 @@ namespace UniDependencyInjection.Core.Model.Internal
         }
 
         public object CreateInstance(IScope scope, Type serviceType) 
-            => _serviceFactory.Create(scope, serviceType);
+            => _serviceFactory.CreateService(scope, serviceType);
 
         public ServiceDescriptor GetDescriptor(Type serviceType)
         {

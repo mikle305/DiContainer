@@ -12,15 +12,37 @@ namespace UniDependencyInjection.Core.Model
         private Type _serviceFactory;
 
 
-        public void Register(ServiceDescriptor serviceDescriptor)
+        public IContainerBuilder RegisterTypeBased(
+            Type serviceType,
+            Type serviceImplementation,
+            LifeTime lifeTime)
         {
-            _services.Add(serviceDescriptor);
+            RegisterDescriptor(new TypeBasedServiceDescriptor(serviceType, lifeTime, serviceImplementation));
+            
+            return this;
         }
 
-        public ContainerBuilder WithCustomServiceCreator<TServiceFactory>() where TServiceFactory : ServiceFactory
+        public IContainerBuilder RegisterFactoryBased(
+            Type serviceType, 
+            Func<IScope, object> factory, 
+            LifeTime lifeTime)
+        {
+            RegisterDescriptor(new FactoryBasedServiceDescriptor(serviceType, lifeTime, factory));
+            return this;
+        }
+
+        public IContainerBuilder RegisterInstanceBased(
+            Type serviceType, 
+            object instance)
+        {
+            RegisterDescriptor(new InstanceBasedServiceDescriptor(serviceType, instance));
+            return this;
+        }
+
+        public IContainerBuilder WithCustomServiceActivatorFactory<TServiceFactory>() where TServiceFactory : ServiceFactory
         {
             if (_serviceFactory is not null)
-                ExceptionsHelper.ThrowServiceFactoryAlreadyAdded();
+                ExceptionsHelper.ThrowServiceFactoryAlreadyExists();
             
             _serviceFactory = typeof(TServiceFactory);
             return this;
@@ -31,6 +53,11 @@ namespace UniDependencyInjection.Core.Model
             return _serviceFactory is not null 
                 ? new Container(_services, _serviceFactory) 
                 : new Container(_services);
+        }
+
+        private void RegisterDescriptor(ServiceDescriptor serviceDescriptor)
+        {
+            _services.Add(serviceDescriptor);
         }
     }
 }

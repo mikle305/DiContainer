@@ -13,8 +13,11 @@ namespace UniDependencyInjection.Core.Helpers
         public static object ThrowAsyncDisposeInInvalidContext()
             => throw new InvalidOperationException("Can not use async dispose in default dispose context");
 
-        public static object ThrowServiceFactoryAlreadyAdded()
+        public static object ThrowServiceFactoryAlreadyExists()
             => throw new InvalidOperationException("Can not set service factory multiple times");
+
+        public static object ThrowFunctionArgumentsCount(int target) 
+            => throw new InvalidOperationException($"Function must have {target} params count");
     }
 }
 

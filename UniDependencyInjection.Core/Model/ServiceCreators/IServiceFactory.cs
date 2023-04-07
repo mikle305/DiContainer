@@ -4,6 +4,6 @@ namespace UniDependencyInjection.Core.Model.ServiceCreators
 {
     internal interface IServiceFactory
     {
-        public object Create(IScope scope, Type serviceType);
+        public object CreateService(IScope scope, Type serviceType);
     }
 }

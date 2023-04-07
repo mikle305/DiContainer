@@ -1,14 +1,27 @@
-﻿using UniDependencyInjection.Core.Model.Descriptors;
+﻿using System;
+using UniDependencyInjection.Core.Model.Descriptors;
 using UniDependencyInjection.Core.Model.ServiceCreators;
 
 namespace UniDependencyInjection.Core.Model
 {
     public interface IContainerBuilder
     {
-        public void Register(ServiceDescriptor serviceDescriptor);
+        public IContainerBuilder RegisterTypeBased(
+            Type serviceType,
+            Type serviceImplementation,
+            LifeTime lifeTime);
 
-        public ContainerBuilder WithCustomServiceCreator<TServiceFactory>() where TServiceFactory : ServiceFactory;
-    
+        public IContainerBuilder RegisterFactoryBased(
+            Type serviceType, 
+            Func<IScope, object> factory, 
+            LifeTime lifeTime);
+
+        public IContainerBuilder RegisterInstanceBased(
+            Type serviceType, 
+            object instance);
+
+        public IContainerBuilder WithCustomServiceActivatorFactory<TServiceFactory>() where TServiceFactory : ServiceFactory;
+
         public IContainer Build();
     }
 }

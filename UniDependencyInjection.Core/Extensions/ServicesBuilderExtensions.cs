@@ -104,38 +104,5 @@ namespace UniDependencyInjection.Core.Extensions
                 serviceType: typeof(TService),
                 instance: instance);
         }
-
-
-        private static IContainerBuilder RegisterTypeBased(
-            this IContainerBuilder containerBuilder,
-            Type serviceType,
-            Type serviceImplementation,
-            LifeTime lifeTime)
-        {
-            containerBuilder.Register(new TypeBasedServiceDescriptor(serviceType, lifeTime, serviceImplementation));
-
-            return containerBuilder;
-        }
-
-        private static IContainerBuilder RegisterFactoryBased(
-            this IContainerBuilder builder,
-            Type serviceType,
-            Func<IScope, object> factory,
-            LifeTime lifeTime)
-        {
-            builder.Register(new FactoryBasedServiceDescriptor(serviceType, lifeTime, factory));
-
-            return builder;
-        }
-
-        private static IContainerBuilder RegisterInstanceBased(
-            this IContainerBuilder builder,
-            Type serviceType,
-            object instance)
-        {
-            builder.Register(new InstanceBasedServiceDescriptor(serviceType, instance));
-
-            return builder;
-        }
     }
 }

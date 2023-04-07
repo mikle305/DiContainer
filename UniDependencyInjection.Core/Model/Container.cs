@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using UniDependencyInjection.Core.Helpers;
 using UniDependencyInjection.Core.Model.Descriptors;
@@ -12,6 +13,7 @@ namespace UniDependencyInjection.Core.Model
 {
     public class Container : IContainer
     {
+        private const int _factoryConstructorTargetArgs = 1;
         private readonly IContainerProvider _containerProvider;
 
 
@@ -24,14 +26,8 @@ namespace UniDependencyInjection.Core.Model
             IDictionary<Type, ServiceDescriptor> descriptors =
                 services.ToDictionary(d => d.ServiceType);
 
-            ConstructorInfo ctor = ReflectionHelper.FindSingleConstructor(serviceFactoryType);
-            ParameterInfo[] args = ReflectionHelper.FindArguments(ctor);
-        
-            var parameters = new object[args.Length];
-            parameters[0] = descriptors;
+            IServiceFactory serviceFactory = CreateServiceFactory(serviceFactoryType, descriptors);
 
-            var serviceFactory = (ServiceFactory) ReflectionHelper.Instantiate(ctor, parameters);
-        
             _containerProvider = new ContainerProvider(descriptors, serviceFactory);
         }
 
@@ -43,6 +39,18 @@ namespace UniDependencyInjection.Core.Model
 
         public ValueTask DisposeAsync() 
             => _containerProvider.GetRootScope().DisposeAsync();
+
+        private static IServiceFactory CreateServiceFactory(Type serviceFactoryType, IDictionary<Type, ServiceDescriptor> descriptors)
+        {
+            ConstructorInfo ctor = ReflectionHelper.FindSingleConstructor(serviceFactoryType);
+            int argsCount = ReflectionHelper.FindArguments(ctor).Length;
+            if (argsCount != _factoryConstructorTargetArgs)
+                ExceptionsHelper.ThrowFunctionArgumentsCount(_factoryConstructorTargetArgs);
+
+            var parameters = new object[argsCount];
+            parameters[0] = descriptors;
+
+            return (IServiceFactory) ReflectionHelper.Instantiate(ctor, parameters);
+        }
     }
 }
-

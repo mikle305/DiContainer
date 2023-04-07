@@ -19,7 +19,7 @@ namespace UniDependencyInjection.Core.Model.ServiceCreators
             _activatorsMap = new ConcurrentDictionary<Type, Func<IScope, object>>();
         }
 
-        public object Create(IScope scope, Type serviceType)
+        public object CreateService(IScope scope, Type serviceType)
         {
             object service = _activatorsMap
                 .GetOrAdd(key: serviceType, valueFactory: CreateActivator)
