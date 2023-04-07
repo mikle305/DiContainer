@@ -18,7 +18,6 @@ namespace UniDependencyInjection.Core.Model
             LifeTime lifeTime)
         {
             RegisterDescriptor(new TypeBasedServiceDescriptor(serviceType, lifeTime, serviceImplementation));
-            
             return this;
         }
 

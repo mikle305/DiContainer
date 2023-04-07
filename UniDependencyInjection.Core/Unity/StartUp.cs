@@ -13,6 +13,7 @@ namespace DiContainer.UniDependencyInjection.Core.Unity
             IContainerBuilder containerBuilder = new ContainerBuilder();
             ConfigureServices(containerBuilder);
             IContainer container = containerBuilder.Build();
+            ContainerAccess.Container = container;
             return container;
         }
         
