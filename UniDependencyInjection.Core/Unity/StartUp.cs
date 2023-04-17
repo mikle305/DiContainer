@@ -5,10 +5,6 @@ namespace DiContainer.UniDependencyInjection.Core.Unity
 {
     public class StartUp
     {
-        internal StartUp()
-        {
-        }
-
         public IContainer Build()
         {
             if (ContainerAccess.Container != null)
