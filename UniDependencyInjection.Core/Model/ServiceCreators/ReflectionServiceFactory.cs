@@ -21,7 +21,7 @@ namespace UniDependencyInjection.Core.Model.ServiceCreators
                 for (var i = 0; i < args.Length; i++)
                     dependencies[i] = s.Resolve(args[i].ParameterType);
 
-                return ReflectionHelper.Instantiate(ctor, dependencies);
+                return ctor.Invoke(dependencies);
             };
         }
     }

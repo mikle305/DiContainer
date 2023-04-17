@@ -52,7 +52,7 @@ namespace UniDependencyInjection.Core.Model.ServiceCreators
             if (ctor is null)
                 ExceptionsHelper.ThrowServiceSingleConstructor(implementationType.ToString());
 
-            ParameterInfo[] args = ReflectionHelper.FindArguments(ctor);
+            ParameterInfo[] args = ctor!.GetParameters();
 
             return CreateCtorInvoker(ctor, args);
         }

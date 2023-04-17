@@ -43,14 +43,14 @@ namespace UniDependencyInjection.Core.Model
         private static IServiceFactory CreateServiceFactory(Type serviceFactoryType, IDictionary<Type, ServiceDescriptor> descriptors)
         {
             ConstructorInfo ctor = ReflectionHelper.FindSingleConstructor(serviceFactoryType);
-            int argsCount = ReflectionHelper.FindArguments(ctor).Length;
+            int argsCount = ctor.GetParameters().Length;
             if (argsCount != _factoryConstructorTargetArgs)
                 ExceptionsHelper.ThrowFunctionArgumentsCount(_factoryConstructorTargetArgs);
 
             var parameters = new object[argsCount];
             parameters[0] = descriptors;
 
-            return (IServiceFactory) ReflectionHelper.Instantiate(ctor, parameters);
+            return (IServiceFactory) ctor.Invoke(parameters);
         }
     }
 }
