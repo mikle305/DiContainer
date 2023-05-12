@@ -60,7 +60,11 @@ namespace DiContainer.UniDependencyInjection.Core.Unity
 
         private static void FindInjectionMethods(IScope scope, object obj)
         {
-            foreach (MethodInfo methodInfo in obj.GetType().GetMethods())
+            MethodInfo[] methods = obj
+                .GetType()
+                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
+            
+            foreach (MethodInfo methodInfo in methods)
             {
                 if (methodInfo.GetCustomAttribute<InjectAttribute>() != null)
                     InjectInMethod(scope, obj, methodInfo);
@@ -69,10 +73,14 @@ namespace DiContainer.UniDependencyInjection.Core.Unity
         
         private static void FindInjectionProperties(IScope scope, object obj)
         {
-            foreach (PropertyInfo propertyInfo in obj.GetType().GetProperties())
+            PropertyInfo[] properties = obj
+                .GetType()
+                .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
+            
+            foreach (PropertyInfo propertyInfo in properties)
             {
                 MethodInfo setter = propertyInfo.GetSetMethod();
-                if (setter != null)
+                if (setter?.GetCustomAttribute<InjectAttribute>() != null)
                     InjectInMethod(scope, obj, setter);
             }
         }
