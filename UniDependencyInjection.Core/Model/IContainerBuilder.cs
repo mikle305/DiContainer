@@ -1,6 +1,6 @@
 ﻿using System;
+using DiContainer.UniDependencyInjection.Core.Model.ServiceActivator;
 using UniDependencyInjection.Core.Model.Descriptors;
-using UniDependencyInjection.Core.Model.ServiceCreators;
 
 namespace UniDependencyInjection.Core.Model
 {
@@ -20,7 +20,8 @@ namespace UniDependencyInjection.Core.Model
             Type serviceType, 
             object instance);
 
-        public IContainerBuilder WithCustomServiceActivatorFactory<TServiceFactory>() where TServiceFactory : ServiceFactory;
+        public IContainerBuilder WithCustomServiceActivatorFactory<TServiceFactory>() 
+            where TServiceFactory : ServiceFactory;
 
         public IContainer Build();
     }

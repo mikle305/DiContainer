@@ -4,7 +4,7 @@ using UniDependencyInjection.Core.Model.Descriptors;
 
 namespace UniDependencyInjection.Core.Extensions
 {
-    public static class ServicesBuilderExtensions
+    public static class ContainerBuilderExtensions
     {
         public static IContainerBuilder RegisterSingle<TService, TImplementation>(this IContainerBuilder builder)
             where TService : class

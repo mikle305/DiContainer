@@ -19,7 +19,7 @@ namespace UniDependencyInjection.Core.Helpers
         public static object ThrowFunctionArgumentsCount(int target) 
             => throw new InvalidOperationException($"Function must have {target} params count");
 
-        public static object ThrowMonoFactoryReturningType() 
+        public static object ThrowUnhandledMonoInjectionType() 
             => throw new InvalidOperationException("Method with mono factory attribute must return game object or component");
 
         public static object ThrowMultipleContainersNotSupported() 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using DiContainer.UniDependencyInjection.Core.Model.ServiceActivator;
 using UniDependencyInjection.Core.Model.Descriptors;
-using UniDependencyInjection.Core.Model.ServiceCreators;
 
 namespace UniDependencyInjection.Core.Model.Internal
 {

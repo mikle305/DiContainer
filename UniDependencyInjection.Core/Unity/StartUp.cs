@@ -7,13 +7,9 @@ namespace DiContainer.UniDependencyInjection.Core.Unity
     {
         public IContainer Build()
         {
-            if (ContainerAccess.Container != null)
-                ExceptionsHelper.ThrowMultipleContainersNotSupported();
-            
             IContainerBuilder containerBuilder = new ContainerBuilder();
             ConfigureServices(containerBuilder);
             IContainer container = containerBuilder.Build();
-            ContainerAccess.Container = container;
             return container;
         }
         

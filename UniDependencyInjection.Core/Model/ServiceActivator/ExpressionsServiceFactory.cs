@@ -4,9 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model;
 using UniDependencyInjection.Core.Model.Descriptors;
 
-namespace UniDependencyInjection.Core.Model.ServiceCreators
+namespace DiContainer.UniDependencyInjection.Core.Model.ServiceActivator
 {
     public class ExpressionsServiceFactory : ServiceFactory
     {

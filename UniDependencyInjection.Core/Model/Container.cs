@@ -4,24 +4,24 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
+using DiContainer.UniDependencyInjection.Core.Model.ServiceActivator;
 using UniDependencyInjection.Core.Helpers;
 using UniDependencyInjection.Core.Model.Descriptors;
 using UniDependencyInjection.Core.Model.Internal;
-using UniDependencyInjection.Core.Model.ServiceCreators;
 
 namespace UniDependencyInjection.Core.Model
 {
     public class Container : IContainer
     {
         private const int _factoryConstructorTargetArgs = 1;
-        private readonly IContainerProvider _containerProvider;
+        private IContainerProvider _containerProvider;
 
 
-        internal Container(IEnumerable<ServiceDescriptor> services) : this(services, typeof(ExpressionsServiceFactory))
+        internal Container()
         {
         }
 
-        internal Container(IEnumerable<ServiceDescriptor> services, Type serviceFactoryType)
+        internal void Initialize(IEnumerable<ServiceDescriptor> services, Type serviceFactoryType)
         {
             IDictionary<Type, ServiceDescriptor> descriptors =
                 services.ToDictionary(d => d.ServiceType);

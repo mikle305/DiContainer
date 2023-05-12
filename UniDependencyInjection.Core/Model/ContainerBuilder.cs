@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using DiContainer.UniDependencyInjection.Core.Model.ServiceActivator;
 using UniDependencyInjection.Core.Helpers;
 using UniDependencyInjection.Core.Model.Descriptors;
-using UniDependencyInjection.Core.Model.ServiceCreators;
 
 namespace UniDependencyInjection.Core.Model
 {
@@ -49,14 +49,13 @@ namespace UniDependencyInjection.Core.Model
 
         public IContainer Build()
         {
-            return _serviceFactory is not null 
-                ? new Container(_services, _serviceFactory) 
-                : new Container(_services);
+            var container = new Container();
+            RegisterDescriptor(new InstanceBasedServiceDescriptor(typeof(IContainer), container));
+            container.Initialize(_services, _serviceFactory ?? typeof(ExpressionsServiceFactory));
+            return container;
         }
 
-        private void RegisterDescriptor(ServiceDescriptor serviceDescriptor)
-        {
-            _services.Add(serviceDescriptor);
-        }
+        private void RegisterDescriptor(ServiceDescriptor serviceDescriptor) 
+            => _services.Add(serviceDescriptor);
     }
 }

@@ -3,9 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using UniDependencyInjection.Core.Helpers;
+using UniDependencyInjection.Core.Model;
 using UniDependencyInjection.Core.Model.Descriptors;
 
-namespace UniDependencyInjection.Core.Model.ServiceCreators
+namespace DiContainer.UniDependencyInjection.Core.Model.ServiceActivator
 {
     public abstract class ServiceFactory : IServiceFactory
     {
