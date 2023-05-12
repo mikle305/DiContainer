@@ -51,10 +51,17 @@ namespace UniDependencyInjection.Core.Model.Internal
         {
             foreach (object disposable in _disposables)
             {
-                if (disposable is IDisposable d)
-                    d.Dispose();
-                else if (disposable is IAsyncDisposable)
-                    ExceptionsHelper.ThrowAsyncDisposeInInvalidContext();
+                switch (disposable)
+                {
+                    case IContainer:
+                        continue;
+                    case IDisposable d:
+                        d.Dispose();
+                        break;
+                    case IAsyncDisposable:
+                        ExceptionsHelper.ThrowAsyncDisposeInInvalidContext();
+                        break;
+                }
             }
         }
     
@@ -62,10 +69,17 @@ namespace UniDependencyInjection.Core.Model.Internal
         {
             foreach (object disposable in _disposables)
             {
-                if (disposable is IAsyncDisposable a)
-                    await a.DisposeAsync();
-                else if (disposable is IDisposable d)
-                    d.Dispose();
+                switch (disposable)
+                {
+                    case IContainer:
+                        continue;
+                    case IAsyncDisposable a:
+                        await a.DisposeAsync();
+                        break;
+                    case IDisposable d:
+                        d.Dispose();
+                        break;
+                }
             }
         }
     }    
