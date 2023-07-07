@@ -30,7 +30,7 @@ namespace UniDependencyInjection.Unity
         /// </summary>
         public static void InjectChildren(IContainer container, GameObject gameObject)
         {
-            Component[] components = gameObject.GetComponentsInChildren<Component>();
+            Component[] components = gameObject.GetComponentsInChildren<Component>(includeInactive: true);
             InjectInComponents(container, components);
         }
         
@@ -40,7 +40,7 @@ namespace UniDependencyInjection.Unity
         /// </summary>
         public static void InjectChildren(IContainer container, Component component)
         {
-            Component[] components = component.GetComponentsInChildren<Component>();
+            Component[] components = component.GetComponentsInChildren<Component>(includeInactive: true);
             InjectInComponents(container, components);
         }
 
