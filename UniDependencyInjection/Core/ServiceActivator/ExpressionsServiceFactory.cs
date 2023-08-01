@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using UniDependencyInjection.Helpers;
 
 namespace UniDependencyInjection.Core
 {
@@ -12,11 +10,10 @@ namespace UniDependencyInjection.Core
         private static MethodInfo _resolveMethod;
 
     
-        public ExpressionsServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)
+        public ExpressionsServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) 
+            : base(descriptorsMap)
         {
-            _resolveMethod = ReflectionHelper
-                .FindMethodOverloads(typeof(IScope), nameof(IScope.Resolve))
-                .SingleOrDefault(m => !m.IsGenericMethod);
+            _resolveMethod = TypeAnalyzer.FindSingleMethod(typeof(IScope), nameof(IScope.Resolve));
         }
 
         protected override Func<IScope, object> CreateCtorInvoker(ConstructorInfo ctor, ParameterInfo[] args)

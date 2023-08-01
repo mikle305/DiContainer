@@ -6,7 +6,8 @@ namespace UniDependencyInjection.Core
 {
     public class ReflectionServiceFactory : ServiceFactory
     {
-        public ReflectionServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) : base(descriptorsMap)
+        public ReflectionServiceFactory(IDictionary<Type, ServiceDescriptor> descriptorsMap) 
+            : base(descriptorsMap)
         {
         }
 

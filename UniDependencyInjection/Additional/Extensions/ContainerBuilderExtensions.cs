@@ -1,7 +1,7 @@
 ﻿using System;
 using UniDependencyInjection.Core;
 
-namespace UniDependencyInjection.Extensions
+namespace UniDependencyInjection
 {
     public static class ContainerBuilderExtensions
     {

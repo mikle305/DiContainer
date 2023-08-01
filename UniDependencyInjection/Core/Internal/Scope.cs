@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using UniDependencyInjection.Helpers;
 
 namespace UniDependencyInjection.Core
 {
@@ -26,9 +25,9 @@ namespace UniDependencyInjection.Core
             IScope rootScope = _containerProvider.GetRootScope();
     
             if (descriptor is null)
-                ExceptionsHelper.ThrowServiceNotRegistered(serviceType.ToString());
+                ExceptionsHelper.ThrowServiceNotRegistered(serviceType);
             
-            if (descriptor.LifeTime == LifeTime.Transient)
+            if (descriptor!.LifeTime == LifeTime.Transient)
                 return CreateInstance(serviceType);
     
             if (descriptor.LifeTime == LifeTime.Scoped || this == rootScope)

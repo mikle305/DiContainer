@@ -1,8 +1,6 @@
-﻿using System;
-
 namespace UniDependencyInjection.Core
 {
-    public interface IContainer : IDisposable, IAsyncDisposable
+    public interface IContainer
     {
         public IScope CreateScope();
     }

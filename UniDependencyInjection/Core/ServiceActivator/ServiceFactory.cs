@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
-using UniDependencyInjection.Helpers;
 
 namespace UniDependencyInjection.Core
 {
@@ -30,23 +29,23 @@ namespace UniDependencyInjection.Core
         private Func<IScope, object> CreateActivator(Type serviceType)
         {
             if (!_descriptorsMap.TryGetValue(serviceType, out ServiceDescriptor descriptor))
-                ExceptionsHelper.ThrowServiceNotRegistered(serviceType.ToString());
+                ExceptionsHelper.ThrowServiceNotRegistered(serviceType);
 
-            if (descriptor is InstanceBasedServiceDescriptor instanceBased)
-                return _ => instanceBased.Instance;
-
-            if (descriptor is FactoryBasedServiceDescriptor factoryBased)
-                return factoryBased.Factory;
-
-            var typeBased = (TypeBasedServiceDescriptor)descriptor;
-
-            return CreateTypeBasedActivator(typeBased);
+            switch (descriptor)
+            {
+                case InstanceBasedServiceDescriptor instanceBased:
+                    return _ => instanceBased.Instance;
+                case FactoryBasedServiceDescriptor factoryBased:
+                    return factoryBased.Factory;
+                default:
+                    return CreateTypeBasedActivator(descriptor);
+            }
         }
 
-        private Func<IScope, object> CreateTypeBasedActivator(TypeBasedServiceDescriptor descriptor)
+        private Func<IScope, object> CreateTypeBasedActivator(ServiceDescriptor descriptor)
         {
-            Type implementationType = descriptor.ImplementationType;
-            ConstructorInfo ctor = ReflectionHelper.FindSingleConstructor(implementationType);
+            Type implementationType = ((TypeBasedServiceDescriptor)descriptor).ImplementationType;
+            ConstructorInfo ctor = TypeAnalyzer.FindSingleConstructor(implementationType);
 
             if (ctor is null)
                 ExceptionsHelper.ThrowServiceSingleConstructor(implementationType.ToString());

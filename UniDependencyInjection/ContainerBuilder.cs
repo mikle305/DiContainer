@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniDependencyInjection.Helpers;
+using UniDependencyInjection.Core;
+using UniDependencyInjection.Unity;
 
-namespace UniDependencyInjection.Core
+namespace UniDependencyInjection
 {
     public class ContainerBuilder : IContainerBuilder
     {
@@ -48,7 +49,7 @@ namespace UniDependencyInjection.Core
         public IContainer Build()
         {
             var container = new Container();
-            RegisterDescriptor(new InstanceBasedServiceDescriptor(typeof(IContainer), container));
+            RegisterInstanceBased(typeof(IMonoResolver), container);
             container.Initialize(_services, _serviceFactory ?? typeof(ReflectionServiceFactory));
             return container;
         }
